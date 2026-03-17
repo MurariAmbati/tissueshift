@@ -1,0 +1,48 @@
+# TissueShift Training Configuration — Stage 1: Pretrain
+# Focus on pathology encoder + manifold alignment
+
+# Data
+data_dir: data
+cohort: tcga_brca
+feature_extractor: uni
+
+# Model
+aggregator: abmil
+state_dim: 512
+path_dim: 512
+mol_dim: 256
+spat_dim: 128
+n_subtypes: 5
+
+# Training
+epochs: 30
+batch_size: 32
+lr: 3e-4
+weight_decay: 1e-5
+warmup_epochs: 3
+grad_clip: 1.0
+stage: pretrain
+
+# Loss weights — Stage 1 focuses on subtype + manifold
+w_subtype: 1.0
+w_vicreg: 0.5
+w_contrastive: 1.0
+w_survival: 0.0
+w_progression: 0.0
+w_morph2mol: 0.0
+w_microenv: 0.0
+w_transition: 0.0
+
+# Checkpointing
+checkpoint_dir: checkpoints/stage1_pretrain
+save_every: 5
+eval_every: 1
+
+# Hardware (single RTX 3090/4090)
+device: cuda
+mixed_precision: true
+num_workers: 4
+
+# Logging
+wandb_project: tissueshift
+log_every: 10

@@ -1,0 +1,63 @@
+name: Leaderboard Evaluation
+
+on:
+  pull_request:
+    paths:
+      - 'submissions/**'
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install dependencies
+        run: pip install -e .
+
+      - name: Detect submission track
+        id: detect
+        run: |
+          CHANGED=$(git diff --name-only origin/main...HEAD -- 'submissions/')
+          TRACK=$(echo "$CHANGED" | head -1 | cut -d'/' -f2)
+          PRED_FILE=$(echo "$CHANGED" | grep -E '\.csv$' | head -1)
+          echo "track=$TRACK" >> "$GITHUB_OUTPUT"
+          echo "predictions=$PRED_FILE" >> "$GITHUB_OUTPUT"
+
+      - name: Validate submission format
+        run: |
+          python -m benchmarks.leaderboard.validate \
+            --track "${{ steps.detect.outputs.track }}" \
+            --predictions "${{ steps.detect.outputs.predictions }}"
+
+      - name: Run evaluation
+        env:
+          TEST_LABELS_KEY: ${{ secrets.TEST_LABELS_KEY }}
+        run: |
+          python -m benchmarks.evaluate \
+            --track "${{ steps.detect.outputs.track }}" \
+            --predictions "${{ steps.detect.outputs.predictions }}" \
+            --output results.json
+
+      - name: Post results as PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(fs.readFileSync('results.json', 'utf8'));
+            const track = '${{ steps.detect.outputs.track }}';
+
+            let body = `## 🏆 TissueShift Leaderboard — ${track}\n\n`;
+            body += `| Metric | Value |\n|--------|-------|\n`;
+            for (const [k, v] of Object.entries(results.metrics)) {
+              body += `| ${k} | ${typeof v === 'number' ? v.toFixed(4) : v} |\n`;
+            }
+            body += `\n*Evaluated on frozen test split. Results are final.*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });

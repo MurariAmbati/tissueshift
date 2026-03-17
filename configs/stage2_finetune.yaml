@@ -1,0 +1,48 @@
+# TissueShift Training Configuration — Stage 2: Multi-task Fine-tune
+# All heads active, lower LR
+
+# Data
+data_dir: data
+cohort: tcga_brca
+feature_extractor: uni
+
+# Model
+aggregator: abmil
+state_dim: 512
+path_dim: 512
+mol_dim: 256
+spat_dim: 128
+n_subtypes: 5
+
+# Training
+epochs: 50
+batch_size: 16
+lr: 1e-4
+weight_decay: 1e-5
+warmup_epochs: 5
+grad_clip: 1.0
+stage: full
+
+# Loss weights — all heads active
+w_subtype: 1.0
+w_vicreg: 0.1
+w_contrastive: 0.5
+w_survival: 0.5
+w_progression: 0.3
+w_morph2mol: 0.3
+w_microenv: 0.2
+w_transition: 0.3
+
+# Checkpointing
+checkpoint_dir: checkpoints/stage2_finetune
+save_every: 5
+eval_every: 1
+
+# Hardware
+device: cuda
+mixed_precision: true
+num_workers: 4
+
+# Logging
+wandb_project: tissueshift
+log_every: 10

@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: #1a1a2e;
+  --text-primary: #e8e8f0;
+  --text-secondary: #8888aa;
+  --accent-blue: #4a9eff;
+  --accent-purple: #8b5cf6;
+  --accent-pink: #ec4899;
+  --accent-green: #10b981;
+  --accent-amber: #f59e0b;
+  /* PAM50 subtype colors */
+  --color-luma: #3b82f6;
+  --color-lumb: #6366f1;
+  --color-her2: #ec4899;
+  --color-basal: #ef4444;
+  --color-normal: #10b981;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.glass-card {
+  @apply rounded-xl border border-white/10 bg-white/5 backdrop-blur-md;
+}
+
+.subtype-luma { color: var(--color-luma); }
+.subtype-lumb { color: var(--color-lumb); }
+.subtype-her2 { color: var(--color-her2); }
+.subtype-basal { color: var(--color-basal); }
+.subtype-normal { color: var(--color-normal); }

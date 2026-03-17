@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+
+# Data (never commit patient data)
+data/
+*.svs
+*.ndpi
+*.tif
+*.tiff
+*.dcm
+*.h5
+*.hdf5
+
+# Model checkpoints
+checkpoints/
+*.pt
+*.pth
+*.onnx
+*.safetensors
+
+# Experiment tracking
+wandb/
+mlruns/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Node / Frontend
+app/frontend/node_modules/
+app/frontend/.next/
+app/frontend/out/
+
+# Database
+*.db
+*.sqlite3
+
+# Docker
+.docker/
+
+# Test / Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+
+# Submissions test labels (NEVER commit)
+benchmarks/leaderboard/test_labels/
