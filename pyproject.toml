@@ -47,7 +47,11 @@ dependencies = [
     "matplotlib>=3.8.0",
     "seaborn>=0.13.0",
     "tqdm>=4.66.0",
+    "click>=8.1.0",
 ]
+
+[project.scripts]
+tissueshift = "cli.main:main"
 
 [project.optional-dependencies]
 dev = [
@@ -64,10 +68,10 @@ idc = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/tissueshift/tissueshift"
-Documentation = "https://github.com/tissueshift/tissueshift/tree/main/docs"
-Repository = "https://github.com/tissueshift/tissueshift"
-Issues = "https://github.com/tissueshift/tissueshift/issues"
+Homepage = "https://github.com/MurariAmbati/tissueshift"
+Documentation = "https://github.com/MurariAmbati/tissueshift/tree/main/docs"
+Repository = "https://github.com/MurariAmbati/tissueshift"
+Issues = "https://github.com/MurariAmbati/tissueshift/issues"
 
 [tool.ruff]
 target-version = "py310"
