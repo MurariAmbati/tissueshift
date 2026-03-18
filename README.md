@@ -1,213 +1,112 @@
-<div align="center">
+# tissue shift
 
-# 🧬 TissueShift
+multimodal temporal model for breast cancer subtype emergence and progression. fuses histopathology, transcriptomics, proteomics, and spatial context into a shared tissue-state manifold.
 
-### Open Temporal Histopathology-to-Omics Model for Subtype Emergence and Progression in Breast Cancer
+predicts subtype identity, subtype drift, progression stage, morphology-to-molecule mapping, survival risk, and spatial phenotype -- from a single H&E slide plus optional molecular data.
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-green.svg)](https://python.org)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.1+-red.svg)](https://pytorch.org)
+## install
 
-**TissueShift predicts how a breast tumor's subtype is changing over time by reading tissue morphology together with molecular evidence.**
-
-[Architecture](#architecture) · [Quickstart](#quickstart) · [Data](#data-strategy) · [Leaderboard](#leaderboard) · [Contributing](#contributing)
-
-</div>
-
----
-
-## What Is TissueShift?
-
-TissueShift is a **multimodal temporal tissue-state model** that fuses histopathology, spatial microenvironment structure, transcriptomic and proteomic signals, and longitudinal clinical context into a **shared latent tissue manifold**. It then predicts:
-
-1. **Current Tissue State** — subtype identity from morphology + molecular evidence
-2. **Subtype Drift** — probability that the tumor will remain stable, drift within lineage, or switch toward a more aggressive state
-3. **Progression Stage** — where the biopsy sits on a pre-invasive → invasive → metastatic continuum
-4. **Morphology-to-Molecule Bridge** — which pathways and markers the tissue appears to be expressing, and *where*
-
-Most breast-cancer AI stops at static subtyping. TissueShift models subtype as a **trajectory**, not a fixed label.
-
-## Why This Matters
-
-Breast cancer progression is dynamic: receptor discordance between primary and metastatic disease is well recognized, and paired primary–metastatic studies have shown intrinsic subtype conversion. TissueShift matters because it models that change directly rather than pretending a tumor has one permanent identity.
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        INPUT MODALITIES                         │
-│  H&E WSI  │  IHC/Markers  │  RNA/Protein  │  Spatial Context   │
-└─────┬─────┴──────┬────────┴──────┬────────┴────────┬───────────┘
-      │            │               │                 │
-      ▼            ▼               ▼                 ▼
-┌──────────┐ ┌──────────┐  ┌──────────────┐  ┌──────────────┐
-│ UNI ViT  │ │  Marker  │  │  Expression  │  │    Graph     │
-│ Encoder  │ │  Encoder │  │   Encoder    │  │   Encoder    │
-│ (frozen) │ │          │  │  + Pathway   │  │  (PyG GIN)   │
-└────┬─────┘ └────┬─────┘  └──────┬───────┘  └──────┬───────┘
-     │            │               │                  │
-     ▼            │               ▼                  │
-┌──────────┐      │        ┌──────────────┐          │
-│  Region  │      │        │  Proteomic   │          │
-│Tokenizer │      │        │   Encoder    │          │
-└────┬─────┘      │        └──────┬───────┘          │
-     │            │               │                  │
-     ▼            ▼               ▼                  ▼
-┌─────────────────────────────────────────────────────────────────┐
-│              CROSS-ATTENTION FUSION (8 tissue-state queries)    │
-│  Lineage │ Prolif │ HER2 │ Basal │ Immune │ Stroma │ CIN │ Unc│
-└──────────────────────────────┬──────────────────────────────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │  TISSUE-STATE       │
-                    │  MANIFOLD (z∈R⁵¹²)  │
-                    │  + VICReg + Contrast │
-                    └──────────┬──────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-              ▼                ▼                ▼
-     ┌────────────────┐ ┌───────────┐ ┌────────────────┐
-     │ TRANSITION     │ │ PREDICTION│ │ VISUALIZATION  │
-     │ MODEL          │ │ HEADS     │ │ DECODER        │
-     │ (Subtype       │ │ • Subtype │ │ z → R²/R³      │
-     │  Lattice)      │ │ • Drift   │ │ (Subtype River)│
-     │                │ │ • Stage   │ │                │
-     │                │ │ • Survival│ │                │
-     │                │ │ • Morph2Mo│ │                │
-     │                │ │ • MicroEnv│ │                │
-     └────────────────┘ └───────────┘ └────────────────┘
-```
-
-## Quickstart
-
-### With Docker (recommended)
 ```bash
-git clone https://github.com/tissueshift/tissueshift.git
+pip install -e .
+```
+
+or with docker:
+
+```bash
+git clone https://github.com/MurariAmbati/tissueshift.git
 cd tissueshift
 cp .env.example .env
-# Edit .env with your HuggingFace token
 docker compose up
-# Frontend: http://localhost:3000
-# API: http://localhost:8000/docs
 ```
 
-### Local Development
+## cli
+
+after install, the `tissueshift` command is available:
+
 ```bash
-git clone https://github.com/tissueshift/tissueshift.git
-cd tissueshift
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
-
-# Download data
-python -m datasets.tcga_brca download --data-dir ./data
-
-# Extract features (requires GPU)
-python -m preprocess.feature_extract --slides-dir ./data/slides --out-dir ./data/features
-
-# Train Stage 1 (pathology encoder + subtype head)
-python -m training.train --config configs/stage1_pretrain.yaml
-
-# Run benchmarks
-python -m benchmarks.evaluate --track SubtypeCall --predictions results/predictions.json
+tissueshift                     # show banner + commands
+tissueshift info                # system and environment check
+tissueshift train -c configs/stage1_pretrain.yaml
+tissueshift evaluate -t SubtypeCall -p predictions.json -l labels.json
+tissueshift preprocess tile -s ./data/slides -o ./data/tiles
+tissueshift preprocess extract-features -s ./data/slides -c ./data/tiles -o ./data/features
+tissueshift download --subset clinical
+tissueshift serve               # start api server on :8000
 ```
 
-## Data Strategy
+## train
 
-TissueShift is **public-data-first**:
-
-| Source | Subjects | Role | Access |
-|--------|----------|------|--------|
-| **TCGA-BRCA** (IDC) | 1,098 | Primary training: histopathology + genomics | Open |
-| **CPTAC-BRCA** (IDC) | 198 | External validation: proteogenomics | Open |
-| **Human Protein Atlas** | — | Protein-expression grounding + IHC images | Open |
-| **HTAN Breast** | 60+ | Spatial atlases + metastatic evolution | Open (L3/L4) |
-| **GEO Progression** | varies | DCIS-to-invasive progression | Open |
-| **AURORA** | 371 | Paired primary-metastatic (future) | Request-based* |
-
-*AURORA is not currently accepting new data-sharing proposals. TissueShift is designed to work without it.*
-
-See [docs/data_governance.md](docs/data_governance.md) for complete access details.
-
-## Leaderboard
-
-TissueShift maintains a **six-track public benchmark** for breast cancer computational pathology:
-
-| Track | Task | Primary Metric |
-|-------|------|----------------|
-| `SubtypeCall` | PAM50 subtype from H&E | Macro-F1 |
-| `SubtypeDrift` | Predict subtype change primary→met | AUROC |
-| `ProgressionStage` | Classify pre-invasive→metastatic stage | QWK (Quadratic Weighted Kappa) |
-| `Morph2Mol` | Predict gene expression from morphology | R² |
-| `Survival` | Predict overall survival risk | C-index |
-| `SpatialPhenotype` | Predict spatial cell neighborhoods | R²-TIL |
-
-### Submit to the leaderboard
 ```bash
-# 1. Generate predictions
-python -m benchmarks.baselines.path_only_abmil --split test --out predictions.json
+# stage 1: pretrain pathology encoder + subtype head
+tissueshift train -c configs/stage1_pretrain.yaml
 
-# 2. Submit via PR
-cp predictions.json submissions/SubtypeCall/my_model_v1.json
-# Add submission.json with model metadata
-git checkout -b submission/my-model
-git add submissions/
-git commit -m "Submit: MyModel to SubtypeCall track"
-git push && gh pr create
+# stage 2: finetune all heads
+tissueshift train -c configs/stage2_finetune.yaml
+
+# override from cli
+tissueshift train -c configs/stage1_pretrain.yaml --epochs 10 --lr 1e-3 --device cpu
 ```
 
-The CI pipeline will automatically evaluate your submission and post results.
+## evaluate
 
-## Project Structure
+six benchmark tracks:
+
+| track | task | metric |
+|-------|------|--------|
+| SubtypeCall | PAM50 subtype from H&E | macro-f1 |
+| SubtypeDrift | predict subtype change primary to met | auroc |
+| ProgressionStage | pre-invasive to metastatic stage | qwk |
+| Morph2Mol | predict expression from morphology | r2 |
+| Survival | overall survival risk | c-index |
+| SpatialPhenotype | spatial cell neighborhood prediction | r2-til |
+
+```bash
+tissueshift evaluate -t SubtypeCall -p predictions.json -l labels.json -o results.json
+```
+
+## preprocess
+
+```bash
+# tile whole-slide images
+tissueshift preprocess tile -s ./data/slides -o ./data/tiles --patch-size 256
+
+# extract features with UNI encoder
+tissueshift preprocess extract-features -s ./data/slides -c ./data/tiles -o ./data/features --backbone uni
+```
+
+## data
+
+public-data-first approach:
+
+| source | subjects | role |
+|--------|----------|------|
+| TCGA-BRCA | 1,098 | primary training |
+| CPTAC-BRCA | 198 | external validation |
+| Human Protein Atlas | -- | protein grounding |
+| HTAN Breast | 60+ | spatial atlases |
+
+```bash
+tissueshift download --cohort tcga_brca --subset all
+```
+
+## structure
 
 ```
 tissueshift/
-├── datasets/           # Data loaders, manifests, data cards
-├── preprocess/         # Tiling, stain normalization, feature extraction
-├── encoders/           # Pathology, molecular, spatial tokenizers
-│   ├── pathology/      #   UNI encoder, region tokenizer, slide aggregator
-│   ├── molecular/      #   Expression, pathway, proteomic encoders
-│   └── spatial/        #   Graph encoder (PyG)
-├── world_model/        # Fusion, manifold, transition model
-├── heads/              # Subtype, drift, progression, survival, morph2mol
-├── benchmarks/         # Evaluation scripts, baselines, leaderboard
-├── training/           # Training loop, configs, losses
-├── app/                # FastAPI inference + leaderboard API
-│   └── backend/        #   API server, routes, models
-├── frontend/           # Next.js + Three.js interactive atlas
-├── docs/               # Model card, ethics, data governance
-├── notebooks/          # Exploration and visualization
-└── tests/              # Unit and integration tests
+  cli/              # click-based cli
+  datasets/         # data loaders and manifests
+  preprocess/       # tiling, stain norm, feature extraction
+  encoders/         # pathology, molecular, spatial encoders
+  world_model/      # cross-attention fusion + manifold
+  heads/            # prediction heads (6 tracks)
+  training/         # training loop and configs
+  benchmarks/       # evaluation and baselines
+  app/backend/      # fastapi server
+  frontend/         # next.js website
+  configs/          # yaml training configs
+  tests/            # tests
 ```
 
-## Contributing
+## license
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-**Ways to contribute:**
-- 🏆 Submit to the [leaderboard](#leaderboard)
-- 🔬 Add a new dataset loader
-- 🧠 Implement a new encoder backbone
-- 📊 Add evaluation metrics
-- 🎨 Improve the interactive atlas
-- 📝 Improve documentation
-
-## Ethics & Limitations
-
-TissueShift is a **research tool**, not a clinical diagnostic device. See [docs/ethics.md](docs/ethics.md) for responsible use guidelines, known limitations, and bias considerations.
-
-## Citation
-
-```bibtex
-@software{tissueshift2026,
-  title={TissueShift: Open Temporal Histopathology-to-Omics Model for Breast Cancer},
-  author={TissueShift Contributors},
-  year={2026},
-  url={https://github.com/tissueshift/tissueshift}
-}
-```
-
-## License
-
-Apache 2.0 — see [LICENSE](LICENSE).
+apache 2.0

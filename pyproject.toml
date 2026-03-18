@@ -5,11 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "tissueshift"
 version = "0.1.0"
-description = "Open Temporal Histopathology-to-Omics Model for Subtype Emergence and Progression in Breast Cancer"
+description = "multimodal temporal model for breast cancer subtype emergence and progression"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.10"
-authors = [{ name = "TissueShift Contributors" }]
+authors = [{ name = "Murari Ambati" }]
 keywords = ["breast-cancer", "computational-pathology", "multimodal", "subtype", "progression"]
 classifiers = [
     "Development Status :: 3 - Alpha",
