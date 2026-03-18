@@ -3,31 +3,59 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #12121a;
-  --bg-card: #1a1a2e;
-  --text-primary: #e8e8f0;
-  --text-secondary: #8888aa;
-  --accent-blue: #4a9eff;
+  --bg-primary: #000000;
+  --bg-secondary: #0a0a0a;
+  --bg-card: #111111;
+  --text-primary: #ffffff;
+  --text-secondary: #777777;
+  --text-muted: #444444;
+  --border: #1a1a1a;
   --accent-purple: #8b5cf6;
-  --accent-pink: #ec4899;
   --accent-green: #10b981;
-  --accent-amber: #f59e0b;
-  /* PAM50 subtype colors */
-  --color-luma: #3b82f6;
-  --color-lumb: #6366f1;
+  --color-luma: #4a9eff;
+  --color-lumb: #7c6cf6;
   --color-her2: #ec4899;
   --color-basal: #ef4444;
   --color-normal: #10b981;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility classes */
+.section-label {
+  @apply font-mono text-xs tracking-[0.2em] uppercase;
+  color: var(--text-muted);
 }
 
 .glass-card {
-  @apply rounded-xl border border-white/10 bg-white/5 backdrop-blur-md;
+  @apply border bg-[var(--bg-card)];
+  border-color: var(--border);
+}
+
+.badge {
+  @apply inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.15em] px-3 py-1.5 border;
+}
+
+.badge-active {
+  @apply border-emerald-500/30 text-emerald-400 bg-emerald-500/5;
+}
+
+.badge-dev {
+  @apply border-amber-500/30 text-amber-400 bg-amber-500/5;
+}
+
+.badge-planned {
+  @apply border-white/10 bg-white/[0.02];
+  color: var(--text-secondary);
 }
 
 .subtype-luma { color: var(--color-luma); }
@@ -35,3 +63,8 @@ body {
 .subtype-her2 { color: var(--color-her2); }
 .subtype-basal { color: var(--color-basal); }
 .subtype-normal { color: var(--color-normal); }
+
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #fff;
+}

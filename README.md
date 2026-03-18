@@ -61,7 +61,7 @@ Breast cancer progression is dynamic: receptor discordance between primary and m
                                ▼
                     ┌─────────────────────┐
                     │  TISSUE-STATE       │
-                    │  MANIFOLD (z∈R¹²⁸)  │
+                    │  MANIFOLD (z∈R⁵¹²)  │
                     │  + VICReg + Contrast │
                     └──────────┬──────────┘
                                │
@@ -107,10 +107,10 @@ python -m datasets.tcga_brca download --data-dir ./data
 python -m preprocess.feature_extract --slides-dir ./data/slides --out-dir ./data/features
 
 # Train Stage 1 (pathology encoder + subtype head)
-python -m training.train --config training/configs/stage1_pathology.yaml
+python -m training.train --config configs/stage1_pretrain.yaml
 
 # Run benchmarks
-python -m benchmarks.evaluate --track SubtypeCall --predictions results/predictions.csv
+python -m benchmarks.evaluate --track SubtypeCall --predictions results/predictions.json
 ```
 
 ## Data Strategy
@@ -136,20 +136,20 @@ TissueShift maintains a **six-track public benchmark** for breast cancer computa
 
 | Track | Task | Primary Metric |
 |-------|------|----------------|
-| `SubtypeCall` | PAM50 subtype from H&E | Balanced Accuracy |
+| `SubtypeCall` | PAM50 subtype from H&E | Macro-F1 |
 | `SubtypeDrift` | Predict subtype change primary→met | AUROC |
-| `ProgressionStage` | Classify pre-invasive→metastatic stage | Ordinal Accuracy |
-| `Morph2Mol` | Predict gene expression from morphology | Mean Pearson |
+| `ProgressionStage` | Classify pre-invasive→metastatic stage | QWK (Quadratic Weighted Kappa) |
+| `Morph2Mol` | Predict gene expression from morphology | R² |
 | `Survival` | Predict overall survival risk | C-index |
-| `SpatialPhenotype` | Predict spatial cell neighborhoods | Neighborhood F1 |
+| `SpatialPhenotype` | Predict spatial cell neighborhoods | R²-TIL |
 
 ### Submit to the leaderboard
 ```bash
 # 1. Generate predictions
-python -m benchmarks.baselines.path_only_abmil --split test --out predictions.csv
+python -m benchmarks.baselines.path_only_abmil --split test --out predictions.json
 
 # 2. Submit via PR
-cp predictions.csv submissions/SubtypeCall/my_model_v1.csv
+cp predictions.json submissions/SubtypeCall/my_model_v1.json
 # Add submission.json with model metadata
 git checkout -b submission/my-model
 git add submissions/
@@ -173,9 +173,9 @@ tissueshift/
 ├── heads/              # Subtype, drift, progression, survival, morph2mol
 ├── benchmarks/         # Evaluation scripts, baselines, leaderboard
 ├── training/           # Training loop, configs, losses
-├── app/
-│   ├── backend/        # FastAPI inference + leaderboard API
-│   └── frontend/       # Next.js + Three.js interactive atlas
+├── app/                # FastAPI inference + leaderboard API
+│   └── backend/        #   API server, routes, models
+├── frontend/           # Next.js + Three.js interactive atlas
 ├── docs/               # Model card, ethics, data governance
 ├── notebooks/          # Exploration and visualization
 └── tests/              # Unit and integration tests
