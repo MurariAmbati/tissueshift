@@ -30,15 +30,15 @@ const TRACK_METRICS: Record<string, string> = {
 };
 
 const DEMO_ENTRIES: LeaderboardEntry[] = [
-  { rank: 1, team: 'TissueShift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.891, date: '2024-01-15', track: 'SubtypeCall' },
+  { rank: 1, team: 'Tissue Shift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.891, date: '2024-01-15', track: 'SubtypeCall' },
   { rank: 2, team: 'Baseline-MIL', model: 'ResNet50+CLAM', score: 0.842, date: '2024-01-10', track: 'SubtypeCall' },
   { rank: 3, team: 'Baseline-Linear', model: 'UNI+MeanPool+LR', score: 0.781, date: '2024-01-08', track: 'SubtypeCall' },
-  { rank: 1, team: 'TissueShift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.712, date: '2024-01-15', track: 'Survival' },
+  { rank: 1, team: 'Tissue Shift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.712, date: '2024-01-15', track: 'Survival' },
   { rank: 2, team: 'Baseline-Cox', model: 'Clinical+CoxPH', score: 0.654, date: '2024-01-10', track: 'Survival' },
-  { rank: 1, team: 'TissueShift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.423, date: '2024-01-15', track: 'Morph2Mol' },
-  { rank: 1, team: 'TissueShift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.783, date: '2024-01-15', track: 'ProgressionStage' },
-  { rank: 1, team: 'TissueShift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.821, date: '2024-01-15', track: 'SubtypeDrift' },
-  { rank: 1, team: 'TissueShift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.387, date: '2024-01-15', track: 'SpatialPhenotype' },
+  { rank: 1, team: 'Tissue Shift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.423, date: '2024-01-15', track: 'Morph2Mol' },
+  { rank: 1, team: 'Tissue Shift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.783, date: '2024-01-15', track: 'ProgressionStage' },
+  { rank: 1, team: 'Tissue Shift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.821, date: '2024-01-15', track: 'SubtypeDrift' },
+  { rank: 1, team: 'Tissue Shift-Base', model: 'UNI+ABMIL+CrossAttn', score: 0.387, date: '2024-01-15', track: 'SpatialPhenotype' },
 ];
 
 export default function LeaderboardPage() {
@@ -137,7 +137,7 @@ export default function LeaderboardPage() {
       <div className="mt-10 border border-[#1a1a1a] bg-[#080808] p-8">
         <h3 className="font-mono text-[11px] tracking-[0.15em] text-[#444] mb-4">HOW TO SUBMIT</h3>
         <ol className="list-decimal list-inside space-y-3 text-[14px] text-[#777]">
-          <li>Fork the TissueShift repository</li>
+          <li>Fork the Tissue Shift repository</li>
           <li>
             Run your model on the test split and save predictions as{' '}
             <code className="font-mono text-[12px] text-[#555]">

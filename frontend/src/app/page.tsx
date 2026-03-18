@@ -79,7 +79,7 @@ export default function HomePage() {
             <span className="text-[#555]">Trajectory.</span>
           </h1>
           <p className="mt-8 max-w-xl text-[17px] leading-[1.7] text-[#777]">
-            TissueShift fuses histopathology, transcriptomics, proteomics, and
+            Tissue Shift fuses histopathology, transcriptomics, proteomics, and
             spatial context to model how breast cancer subtypes emerge, drift,
             and progress over time. Open-source. Consumer-GPU trainable.
           </p>
@@ -143,7 +143,7 @@ export default function HomePage() {
             <span className="text-[#555]">Predict Molecular Trajectory.</span>
           </h2>
           <p className="mt-8 max-w-xl text-[15px] leading-[1.8] text-[#777]">
-            TissueShift builds a shared latent tissue manifold from four input
+            Tissue Shift builds a shared latent tissue manifold from four input
             modalities, then models subtype transitions as paths through that
             space. All modalities fuse through 8 learned tissue-state queries.
           </p>
@@ -298,7 +298,7 @@ export default function HomePage() {
               CONTRIBUTE &rarr;
             </Link>
             <a
-              href="https://github.com/tissueshift/tissueshift"
+              href="https://github.com/MurariAmbati/tissueshift"
               target="_blank"
               rel="noopener noreferrer"
               className="font-mono text-[11px] tracking-[0.15em] border border-white/20 text-white/70 px-6 py-3 hover:border-white/40 hover:text-white transition-colors"
@@ -324,9 +324,9 @@ export default function HomePage() {
        ╚═╝   ╚═╝╚══════╝╚══════╝ ╚═════╝ ╚══════╝
     ███████╗██╗  ██╗██╗███████╗████████╗
     ██╔════╝██║  ██║██║██╔════╝╚══██╔══╝
-    ███████╗███████║██║█████╗     ██║   
-    ╚════██║██╔══██║██║██╔══╝     ██║   
-    ███████║██║  ██║██║██║        ██║   
+    ███████╗███████║██║█████╗     ██║
+    ╚════██║██╔══██║██║██╔══╝     ██║
+    ███████║██║  ██║██║██║        ██║
     ╚══════╝╚═╝  ╚═╝╚═╝╚═╝        ╚═╝`}
             </pre>
           </div>
@@ -338,7 +338,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1400px] px-6 sm:px-12 lg:px-24 py-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <p className="font-mono text-[11px] tracking-[0.1em] text-[#333]">
-              TISSUESHIFT
+              TISSUE SHIFT
             </p>
             <p className="font-mono text-[11px] tracking-[0.1em] text-[#333]">
               OPEN SOURCE &middot; APACHE 2.0 &middot; &copy; 2026

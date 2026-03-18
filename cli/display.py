@@ -10,11 +10,11 @@ VERSION = "0.1.0"
 # ── Banner ────────────────────────────────────────────────────────────────────
 
 BANNER = r"""
-  _____ _                  ____  _     _  __ _
- |_   _(_)___ ___ _   _  / ___|| |__ (_)/ _| |_
-   | | | / __/ __| | | | \___ \| '_ \| | |_| __|
-   | | | \__ \__ \ |_| |  ___) | | | | |  _| |_
-   |_| |_|___/___/\__,_| |____/|_| |_|_|_|  \__|
+ _____ _                      ____  _     _  __ _
+|_   _(_)___ ___ _   _  ___  / ___|| |__ (_)/ _| |_
+  | | | / __/ __| | | |/ _ \ \___ \| '_ \| | |_| __|
+  | | | \__ \__ \ |_| |  __/  ___) | | | | |  _| |_
+  |_| |_|___/___/\__,_|\___| |____/|_| |_|_|_|  \__|
 """
 
 TAGLINE = "Open Temporal Histopathology-to-Omics | Breast Cancer Subtype Emergence & Progression"
@@ -80,5 +80,5 @@ def print_done() -> None:
 def print_footer() -> None:
     w = min(_term_width(), 88)
     sys.stdout.write(f"\n  {_rule('-', w - 2)}\n")
-    sys.stdout.write(f"  TISSUESHIFT v{VERSION}  |  Apache 2.0  |  github.com/MurariAmbati/tissueshift\n")
+    sys.stdout.write(f"  TISSUE SHIFT v{VERSION}  |  Apache 2.0  |  github.com/MurariAmbati/tissueshift\n")
     sys.stdout.write(f"  {_rule('-', w - 2)}\n\n")

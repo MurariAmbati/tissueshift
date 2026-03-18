@@ -35,7 +35,7 @@ def _resolve(p: str) -> Path:
 @click.version_option(VERSION, prog_name="tissueshift")
 @click.pass_context
 def cli(ctx: click.Context) -> None:
-    """TissueShift -- Open Temporal Histopathology-to-Omics Model."""
+    """Tissue Shift -- Open Temporal Histopathology-to-Omics Model."""
     if ctx.invoked_subcommand is None:
         print_banner()
         click.echo(ctx.get_help())

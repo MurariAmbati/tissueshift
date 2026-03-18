@@ -2,11 +2,11 @@
 
 const CONTRIBUTIONS = [
   { label: 'LEADERBOARD', title: 'Submit to Benchmark', desc: 'Run your model on any of the 6 tracks and submit predictions via PR.', link: '/leaderboard' },
-  { label: 'DATASETS', title: 'Add a Dataset', desc: 'Integrate a new histopathology cohort (METABRIC, AURORA, etc.) following our data card template.', link: 'https://github.com/tissueshift/tissueshift/blob/main/CONTRIBUTING.md#datasets' },
-  { label: 'ENCODERS', title: 'Build an Encoder', desc: 'Add a new pathology encoder (CONCH, Virchow, etc.) or molecular encoder variant.', link: 'https://github.com/tissueshift/tissueshift/blob/main/CONTRIBUTING.md#encoders' },
-  { label: 'HEADS', title: 'Add a Prediction Head', desc: 'Create a new prediction head for an existing or novel benchmark track.', link: 'https://github.com/tissueshift/tissueshift/blob/main/CONTRIBUTING.md#heads' },
-  { label: 'METRICS', title: 'Propose New Metrics', desc: 'Add evaluation metrics or propose entirely new benchmark tracks.', link: 'https://github.com/tissueshift/tissueshift/blob/main/CONTRIBUTING.md#metrics' },
-  { label: 'FRONTEND', title: 'Improve the UI', desc: 'Build new visualizations, improve existing ones, or fix frontend issues.', link: 'https://github.com/tissueshift/tissueshift/blob/main/CONTRIBUTING.md#frontend' },
+  { label: 'DATASETS', title: 'Add a Dataset', desc: 'Integrate a new histopathology cohort (METABRIC, AURORA, etc.) following our data card template.', link: 'https://github.com/MurariAmbati/tissueshift/blob/main/CONTRIBUTING.md#datasets' },
+  { label: 'ENCODERS', title: 'Build an Encoder', desc: 'Add a new pathology encoder (CONCH, Virchow, etc.) or molecular encoder variant.', link: 'https://github.com/MurariAmbati/tissueshift/blob/main/CONTRIBUTING.md#encoders' },
+  { label: 'HEADS', title: 'Add a Prediction Head', desc: 'Create a new prediction head for an existing or novel benchmark track.', link: 'https://github.com/MurariAmbati/tissueshift/blob/main/CONTRIBUTING.md#heads' },
+  { label: 'METRICS', title: 'Propose New Metrics', desc: 'Add evaluation metrics or propose entirely new benchmark tracks.', link: 'https://github.com/MurariAmbati/tissueshift/blob/main/CONTRIBUTING.md#metrics' },
+  { label: 'FRONTEND', title: 'Improve the UI', desc: 'Build new visualizations, improve existing ones, or fix frontend issues.', link: 'https://github.com/MurariAmbati/tissueshift/blob/main/CONTRIBUTING.md#frontend' },
 ];
 
 const TIERS = [
@@ -23,7 +23,7 @@ export default function ContributePage() {
         Get Involved.
       </h1>
       <p className="mb-12 text-[15px] text-[#777] max-w-xl">
-        TissueShift is an open collaborative project. There are many ways
+        Tissue Shift is an open collaborative project. There are many ways
         to contribute — from submitting to the benchmark to building new
         encoder backbones.
       </p>

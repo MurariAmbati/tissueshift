@@ -166,7 +166,7 @@ export default function ContributorDashboard() {
           <div className="border border-[#1a1a1a] bg-[#080808] p-8">
             <div className="flex items-start justify-between mb-6">
               <div>
-                <h3 className="text-[16px] font-semibold">TissueShift-Base v0.1.0</h3>
+                <h3 className="text-[16px] font-semibold">Tissue Shift-Base v0.1.0</h3>
                 <p className="font-mono text-[11px] text-[#444] mt-1">BASELINE MODEL</p>
               </div>
               <span className="badge badge-active">LATEST</span>
