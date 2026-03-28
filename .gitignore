@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (do not commit large files)
+data/
+*.svs
+*.ndpi
+*.tiff
+*.h5
+*.hdf5
+*.pt
+*.pth
+
+# Logs and checkpoints
+logs/
+checkpoints/
+wandb/
+mlruns/
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Config overrides (keep defaults, ignore local)
+configs/local_*.yaml
+
+# Node / Dashboard
+node_modules/
+dashboard/dist/
+dashboard/.env

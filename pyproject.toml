@@ -1,0 +1,112 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "tissueshift"
+version = "0.1.0"
+description = "Open Temporal Histopathology-to-Omics Model for Breast Cancer Subtype Emergence and Progression"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+keywords = [
+    "breast cancer",
+    "computational pathology",
+    "histopathology",
+    "multimodal",
+    "subtype",
+    "progression",
+    "world model",
+    "deep learning",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "pandas>=2.0.0",
+    "scikit-learn>=1.3.0",
+    "PyYAML>=6.0",
+    "openslide-python>=1.3.1",
+    "Pillow>=10.0.0",
+    "tqdm>=4.66.0",
+    "h5py>=3.9.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+pathology = [
+    "tiatoolbox>=1.5.0",
+]
+graph = [
+    "torch-geometric>=2.4.0",
+    "torch-scatter>=2.1.0",
+    "torch-sparse>=0.6.0",
+]
+spatial = [
+    "anndata>=0.10.0",
+    "scanpy>=1.9.0",
+]
+survival = [
+    "scikit-survival>=0.22.0",
+]
+viz = [
+    "streamlit>=1.28.0",
+    "plotly>=5.18.0",
+    "matplotlib>=3.7.0",
+    "umap-learn>=0.5.0",
+    "phate>=1.0.0",
+]
+harmonize = [
+    "pycombat>=0.3.0",
+]
+tracking = [
+    "wandb>=0.16.0",
+    "tensorboard>=2.14.0",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "isort>=5.12.0",
+    "ruff>=0.1.0",
+]
+all = [
+    "tissueshift[pathology,graph,spatial,survival,viz,harmonize,tracking,dev]",
+]
+
+[project.scripts]
+tissueshift = "tissueshift.cli:main"
+tissueshift-train = "tissueshift.cli:main"
+tissueshift-eval = "tissueshift.cli:main"
+tissueshift-preprocess = "tissueshift.cli:main"
+tissueshift-infer = "tissueshift.cli:main"
+tissueshift-atlas = "tissueshift.app.atlas:main"
+
+[tool.setuptools.packages.find]
+include = ["tissueshift*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"

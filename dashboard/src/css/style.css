@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+@theme {
+  --font-inter: 'Inter', sans-serif;
+
+  --color-violet-50: #f5f3ff;
+  --color-violet-100: #ede9fe;
+  --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  --color-violet-700: #6d28d9;
+
+  --color-teal-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #e11d48;
+
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
+
+  --breakpoint-xs: 480px;
+}
+
+/* Sidebar expanded behaviour */
+.sidebar-expanded .lg\:sidebar-expanded\:\!w-64 {
+  width: 16rem !important;
+}
+.sidebar-expanded .lg\:sidebar-expanded\:block {
+  display: block !important;
+}
+.sidebar-expanded .lg\:sidebar-expanded\:opacity-100 {
+  opacity: 1 !important;
+}
+.sidebar-expanded .sidebar-expanded\:rotate-180 {
+  transform: rotate(180deg);
+}
+
+/* Hide scrollbar for sidebar */
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Clinical-grade status colors */
+.risk-low    { @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-400; }
+.risk-moderate { @apply bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-400; }
+.risk-high   { @apply bg-rose-100 text-rose-800 dark:bg-rose-500/20 dark:text-rose-400; }
+
+/* Pulse animation for real-time indicators */
+@keyframes clinical-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+.animate-clinical-pulse { animation: clinical-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
